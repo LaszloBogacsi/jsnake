@@ -1,9 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class JSnake {
     private static final String GAME_NAME = "Java Snake";
@@ -12,11 +7,12 @@ public class JSnake {
 
     public static void main(String[] args) {
         Map map = new Map(MAP_WIDTH, MAP_HEIGHT);
-        Snake snake = new Snake(map);
-        initGame(snake);
+        SnakeFood food = new SnakeFood(map);
+        Snake snake = new Snake(map, food);
+        initGame(snake, food);
     }
 
-    private static void initGame(Snake snake) {
+    private static void initGame(Snake snake, SnakeFood food) {
         JFrame jFrame = new JFrame();
         jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jFrame.setTitle(GAME_NAME);

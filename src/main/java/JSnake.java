@@ -30,6 +30,20 @@ public class JSnake {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // TODO: Shouldnt turn to itself
+        // TODO: Game over when crossing self
+        // TODO: start to button press, display message, slightly dim window
+        // TODO: button to pause/unpause the game
+        // TODO: button to exit the game
+        // TODO: levels to implement (speed increase with time, display level)
+        // TODO: display a light grid in the background
+        // TODO: proper snake body texture (head tail bends)
+        // TODO: background texture
+        // TODO: board boundary
+        // TODO: highscore in one session
+        // TODO: highscore all time (persisted high score)
+        // TODO: Better UI design
+
     }
 
     void newGame() throws IOException {

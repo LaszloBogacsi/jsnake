@@ -10,7 +10,7 @@ public class Snake extends JPanel implements KeyListener {
     private static final int SNAKE_WIDTH = 14;
     private static final int SNAKE_HEIGHT = SNAKE_WIDTH;
     private final Map map;
-    private SnakeFood food;
+    private SnakeFood foods;
     private Deque<Rectangle> snakeBits = new ArrayDeque<>();
     private int direction;
     private boolean gameOver;
@@ -20,7 +20,7 @@ public class Snake extends JPanel implements KeyListener {
 
     public Snake(Map map, SnakeFood food) {
         this.map = map;
-        this.food = food;
+        this.foods = food;
         this.gameOver = false;
         this.setPreferredSize(new Dimension(map.getWidth(), map.getHeight()));
         this.setBackground(Color.GRAY);
@@ -62,10 +62,12 @@ public class Snake extends JPanel implements KeyListener {
         if (isGameOver()) {
             g.drawString("Game Over", 300, 300);
         }
+        g.drawRect(0,0, map.getWidth(), map.getHeight());
 
-        food.getFoodItems().forEach(food -> {
-            g.setColor(Color.BLUE);
-            g.fillOval(food.x, food.y, food.width, food.height);
+        foods.getFoodItems().forEach(food -> {
+//            g.setColor(Color.BLUE);
+//            g.fillOval(food.x, food.y, food.width, food.height);
+            g.drawImage(foods.image, food.x, food.y, null);
         });
         // snake head
         snakeBits.stream().limit(1).forEach(snake -> {
@@ -108,7 +110,7 @@ public class Snake extends JPanel implements KeyListener {
         if(!isGameOver()) {
             moveSnake(this.direction);
             foodCollisionDetection();
-            food.maybeGenerateNewFood();
+            foods.maybeGenerateNewFood();
             repaint();
         } else {
             stop();
@@ -169,7 +171,7 @@ public class Snake extends JPanel implements KeyListener {
         Rectangle first = snakeBits.peek();
         Rectangle foodEaten = null;
 
-        for(Rectangle foodItem : food.getFoodItems()) {
+        for(Rectangle foodItem : foods.getFoodItems()) {
             if (foodItem.getCenterX() == first.getCenterX() && foodItem.getCenterY() == first.getCenterY()) {
                 foodEaten = foodItem;
                 Rectangle last = snakeBits.removeLast();
@@ -180,7 +182,7 @@ public class Snake extends JPanel implements KeyListener {
             }
         }
         if (foodEaten != null) {
-            food.getFoodItems().remove(foodEaten);
+            foods.getFoodItems().remove(foodEaten);
             this.score++;
             updateScore();
         }

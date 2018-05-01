@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class JSnake {
     private static final String GAME_NAME = "Java Snake";
@@ -11,26 +12,27 @@ public class JSnake {
     private static final int MAP_GRID_WIDTH = 20;
     private static final int MAP_GRID_HEIGHT = MAP_GRID_WIDTH;
     private static final int MAX_NUM_SNAKE_FOOD = 6;
-    JFrame jFrame;
-    JSplitPane gamePane;
-    JPanel scorePanel;
-    JButton reset;
-    JLabel scoreLabel;
-    GameScore score;
-    Map map;
-    SnakeFood food;
-    Snake snake;
+    private JFrame jFrame;
+    private JSplitPane gamePane;
+    private JPanel scorePanel;
+    private JButton reset;
+    private JLabel scoreLabel;
+    private GameScore score;
+    private Map map;
+    private SnakeFood food;
+    private Snake snake;
 
 
     public static void main(String[] args) {
-        JSnake jsnake = new JSnake();
-        jsnake.newGame();
-
-
-
+        try {
+            JSnake jsnake = new JSnake();
+            jsnake.newGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    void newGame() {
+    void newGame() throws IOException {
         map = new Map(MAP_WIDTH, MAP_HEIGHT, MAP_GRID_WIDTH, MAP_GRID_HEIGHT);
         food = new SnakeFood(map, MAX_NUM_SNAKE_FOOD);
         snake = new Snake(map, food);
@@ -51,7 +53,9 @@ public class JSnake {
         reset = new JButton("New Game");
         scoreLabel = new JLabel("Score:");
         score = new GameScore();
+
         snake.addObserver(score);
+
         jFrame.getContentPane().add(gamePane);
 
         gamePane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
@@ -65,8 +69,12 @@ public class JSnake {
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.dispose();
-                newGame();
+                try {
+                    jFrame.dispose();
+                    newGame();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -76,7 +84,7 @@ public class JSnake {
         jFrame.setVisible(true);
     }
 
-    private void resetGame() {
+    private void resetGame() throws IOException {
         map = new Map(MAP_WIDTH, MAP_HEIGHT, MAP_GRID_WIDTH, MAP_GRID_HEIGHT);
         food = new SnakeFood(map, MAX_NUM_SNAKE_FOOD);
         snake = new Snake(map, food);

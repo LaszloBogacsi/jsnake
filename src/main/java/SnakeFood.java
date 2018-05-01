@@ -1,4 +1,8 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,12 +17,15 @@ public class SnakeFood {
     private LocalTime timeLastGenerated;
     private int maxNumSnakeFood;
     private final long GENERATE_FOOD_TIMEOUT_SEC = 10;
+    public final Image image;
 
-    public SnakeFood(Map map, int maxNumSnakeFood) {
+    public SnakeFood(Map map, int maxNumSnakeFood) throws IOException {
         this.map = map;
         this.maxNumSnakeFood = maxNumSnakeFood;
         this.timeLastGenerated = LocalTime.now();
         this.foodItems = generateFoodItems(maxNumSnakeFood);
+        image =  ImageIO.read(new File("./red-apple.png")).getScaledInstance(FOOD_WIDTH, FOOD_HEIGHT, Image.SCALE_DEFAULT);
+
     }
 
     private Queue<Rectangle> generateFoodItems(int maxNum) {
